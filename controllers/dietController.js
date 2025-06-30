@@ -425,3 +425,19 @@ exports.deleteDietPlan = async (req, res) => {
   }
 };
 
+exports.getSavedDietPlans = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const plans = await DietPlan.find({ userId });
+
+    res.json({
+      message: '📦 Fetched saved diet plans successfully',
+      plans
+    });
+  } catch (error) {
+    console.error('❌ Error fetching saved diet plans:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+

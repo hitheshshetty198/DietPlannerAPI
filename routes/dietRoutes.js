@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { generateDietPlan, saveDietPlan,updateDietPlan,deleteDietPlan } = require('../controllers/dietController');
+const { generateDietPlan, saveDietPlan,updateDietPlan,deleteDietPlan,getSavedDietPlans } = require('../controllers/dietController');
 const { authMiddleware } = require('../middleware/authMiddleware');
 
 
@@ -12,4 +12,5 @@ router.post('/generate', generateDietPlan);
 router.post('/save', authMiddleware, saveDietPlan);
 router.put('/update/:planId', authMiddleware, updateDietPlan);
 router.delete('/delete/:planId', authMiddleware, deleteDietPlan);
+router.get('/mine', authMiddleware, getSavedDietPlans);
 module.exports = router;
