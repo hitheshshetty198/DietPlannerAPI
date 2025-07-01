@@ -141,25 +141,42 @@ else {
   const savings = budget_per_month - totalCostPerMonth;
   budgetMessage = `You're within budget! You will save ₹${savings} this month.`;
 
-  // Build detailed plan with consumption_in_grams
+   // Build detailed plan with consumption_in_grams
   plan = [];
   for (let i = 0; i < total_days; i++) {
+    const dailyBreakfast = meals.breakfast.length > 0
+      ? meals.breakfast[i % meals.breakfast.length]
+      : await fetchFallbackMeal("breakfast");
+
+    const dailyLunch = meals.lunch.length > 0
+      ? meals.lunch[i % meals.lunch.length]
+      : await fetchFallbackMeal("lunch");
+
+    const dailyDinner = meals.dinner.length > 0
+      ? meals.dinner[i % meals.dinner.length]
+      : await fetchFallbackMeal("dinner");
+
+    const breakfastStats = estimateGramsAndCost(dailyBreakfast, perMealCalories);
+    const lunchStats = estimateGramsAndCost(dailyLunch, perMealCalories);
+    const dinnerStats = estimateGramsAndCost(dailyDinner, perMealCalories);
+
     plan.push({
       day: i + 1,
-      breakfast: breakfast ? {
-        ...(breakfast.toObject?.() || breakfast),
+      breakfast: dailyBreakfast ? {
+        ...(dailyBreakfast.toObject?.() || dailyBreakfast),
         consumption_in_grams: breakfastStats.grams
       } : null,
-      lunch: lunch ? {
-        ...(lunch.toObject?.() || lunch),
+      lunch: dailyLunch ? {
+        ...(dailyLunch.toObject?.() || dailyLunch),
         consumption_in_grams: lunchStats.grams
       } : null,
-      dinner: dinner ? {
-        ...(dinner.toObject?.() || dinner),
+      dinner: dailyDinner ? {
+        ...(dailyDinner.toObject?.() || dailyDinner),
         consumption_in_grams: dinnerStats.grams
       } : null
     });
   }
+
 }
 
 
@@ -336,25 +353,42 @@ async function buildPlanFromInput(input) {
   const savings = budget_per_month - totalCostPerMonth;
   budgetMessage = `You're within budget! You will save ₹${savings} this month.`;
 
-  // Build detailed plan with consumption_in_grams
+   // Build detailed plan with consumption_in_grams
   plan = [];
   for (let i = 0; i < total_days; i++) {
+    const dailyBreakfast = meals.breakfast.length > 0
+      ? meals.breakfast[i % meals.breakfast.length]
+      : await fetchFallbackMeal("breakfast");
+
+    const dailyLunch = meals.lunch.length > 0
+      ? meals.lunch[i % meals.lunch.length]
+      : await fetchFallbackMeal("lunch");
+
+    const dailyDinner = meals.dinner.length > 0
+      ? meals.dinner[i % meals.dinner.length]
+      : await fetchFallbackMeal("dinner");
+
+    const breakfastStats = estimateGramsAndCost(dailyBreakfast, perMealCalories);
+    const lunchStats = estimateGramsAndCost(dailyLunch, perMealCalories);
+    const dinnerStats = estimateGramsAndCost(dailyDinner, perMealCalories);
+
     plan.push({
       day: i + 1,
-      breakfast: breakfast ? {
-        ...(breakfast.toObject?.() || breakfast),
+      breakfast: dailyBreakfast ? {
+        ...(dailyBreakfast.toObject?.() || dailyBreakfast),
         consumption_in_grams: breakfastStats.grams
       } : null,
-      lunch: lunch ? {
-        ...(lunch.toObject?.() || lunch),
+      lunch: dailyLunch ? {
+        ...(dailyLunch.toObject?.() || dailyLunch),
         consumption_in_grams: lunchStats.grams
       } : null,
-      dinner: dinner ? {
-        ...(dinner.toObject?.() || dinner),
+      dinner: dailyDinner ? {
+        ...(dailyDinner.toObject?.() || dailyDinner),
         consumption_in_grams: dinnerStats.grams
       } : null
     });
   }
+
 }
   
   
